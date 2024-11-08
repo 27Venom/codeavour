@@ -1,0 +1,12 @@
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        max_cur = max_global = nums[0]
+        for num in nums[1:]:
+            max_cur = max(num,num+max_cur)
+            if max_cur>max_global:
+                max_global = max_cur
+
+        return max_global
+
+        
+
