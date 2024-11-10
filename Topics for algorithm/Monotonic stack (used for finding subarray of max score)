@@ -1,0 +1,63 @@
+A **monotonic stack** is a type of stack that maintains its elements in a specific order, either strictly increasing or strictly decreasing, depending on the problem requirements. This ordered structure can make certain algorithms, especially those involving finding minimums or maximums in a window or interval, much more efficient.
+
+### Characteristics of a Monotonic Stack
+
+- **Monotonic Increasing Stack**: Each new element pushed onto the stack is greater than or equal to the element below it. This way, the stack maintains elements in non-decreasing order from bottom to top.
+  
+- **Monotonic Decreasing Stack**: Each new element pushed onto the stack is less than or equal to the element below it. This way, the stack maintains elements in non-increasing order from bottom to top.
+
+### How Monotonic Stacks Work
+
+- When adding a new element, we remove (pop) elements from the stack that violate the monotonic condition. For example, in a monotonic increasing stack, if a new element is smaller than the top element, we pop the top element. This ensures that elements in the stack remain in the desired order.
+- Monotonic stacks are commonly used to solve problems where each element needs to quickly access the next or previous larger or smaller element in the sequence, as this structure optimizes those operations.
+
+### Difference Between a Monotonic Stack and a Normal Stack
+
+1. **Order Enforcement**:
+   - In a **normal stack**, elements are pushed and popped in a Last-In-First-Out (LIFO) manner without any specific order constraint.
+   - In a **monotonic stack**, elements are pushed and popped based on the condition of maintaining either a strictly increasing or decreasing order.
+
+2. **Efficiency**:
+   - Monotonic stacks can solve certain problems more efficiently than normal stacks by reducing redundant comparisons.
+   - They help achieve optimal solutions (often \(O(n)\) complexity) in problems that would otherwise require \(O(n^2)\) if using a normal stack or naive approach.
+
+3. **Applications**:
+   - Monotonic stacks are specifically useful for problems involving intervals and comparisons, such as:
+     - Finding the **next greater or smaller element** in an array.
+     - Solving problems related to **sliding windows**, **histograms** (like the largest rectangle in a histogram), and **trapping rainwater**.
+
+### Example of Using a Monotonic Stack
+
+Consider finding the **next greater element** for each item in an array. A monotonic decreasing stack can solve this efficiently:
+
+1. Traverse the array from right to left.
+2. For each element, pop elements from the stack that are smaller or equal, as they can't be the "next greater" for any of the remaining elements.
+3. The top of the stack after popping is the next greater element, or none if the stack is empty.
+
+This approach is efficient, processing each element in \(O(1)\) average time due to the structured popping.
+
+```python
+def next_greater_elements(nums):
+    result = [-1] * len(nums)  # Initialize result array with -1s
+    stack = []  # Monotonic stack for indexes of nums
+    
+    # Traverse the array in reverse
+    for i in range(len(nums) - 1, -1, -1):
+        # Pop elements that are not greater than the current element
+        while stack and nums[stack[-1]] <= nums[i]:
+            stack.pop()
+        
+        # If stack is not empty, top of the stack is the next greater element
+        if stack:
+            result[i] = nums[stack[-1]]
+        
+        # Push current index onto stack
+        stack.append(i)
+    
+    return result
+
+# Example usage:
+# print(next_greater_elements([2, 1, 2, 4, 3]))  # Output: [4, 2, 4, -1, -1]
+```
+
+This code efficiently finds the next greater element for each item in an array using a monotonic decreasing stack in \(O(n)\) time, which would be challenging to achieve with a normal stack.
