@@ -1,0 +1,36 @@
+def max_score(arr):
+    n = len(arr)
+    
+    # Arrays to store the next and previous smaller elements
+    next_smaller = [n] * n  # Default to n (out of bounds)
+    prev_smaller = [-1] * n  # Default to -1 (out of bounds)
+    
+    # Monotonic stack for finding next smaller elements
+    stack = []
+    for i in range(n):
+        while stack and arr[stack[-1]] > arr[i]:
+            next_smaller[stack.pop()] = i
+        stack.append(i)
+    
+    # Monotonic stack for finding previous smaller elements
+    stack = []
+    for i in range(n - 1, -1, -1):
+        while stack and arr[stack[-1]] > arr[i]:
+            prev_smaller[stack.pop()] = i
+        stack.append(i)
+    
+    # Calculate the maximum possible score
+    max_score = float('-inf')
+    
+    for i in range(n):
+        # Try to find the smallest and second smallest elements by using
+        # the information from next_smaller and prev_smaller.
+        if prev_smaller[i] != -1:
+            score = arr[i] + arr[prev_smaller[i]]
+            max_score = max(max_score, score)
+        
+        if next_smaller[i] != n:
+            score = arr[i] + arr[next_smaller[i]]
+            max_score = max(max_score, score)
+    
+    return max_score
