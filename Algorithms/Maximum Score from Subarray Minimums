@@ -4,6 +4,10 @@ def max_score(arr):
     # Arrays to store the next and previous smaller elements
     next_smaller = [n] * n  # Default to n (out of bounds)
     prev_smaller = [-1] * n  # Default to -1 (out of bounds)
+
+    """next_smaller[i] will eventually hold the index of the next smaller element for each position i.
+        prev_smaller[i] will hold the index of the previous smaller element for each position i.
+These arrays are initialized with default values (n and -1 respectively) to handle cases where there is no smaller element in the required direction."""
     
     # Monotonic stack for finding next smaller elements
     stack = []
