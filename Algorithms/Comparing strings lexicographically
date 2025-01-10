@@ -1,0 +1,14 @@
+def compare_strings_lexicographically():
+    # Read and convert two inputs to lowercase
+    a, b = [input().lower() for _ in range(2)]
+
+    # Replicate cmp behavior
+    if a < b:
+        print(-1)  # 'a' is less than 'b'
+    elif a > b:
+        print(1)   # 'a' is greater than 'b'
+    else:
+        print(0)   # Both strings are equal
+
+# Call the function
+compare_strings_lexicographically()
